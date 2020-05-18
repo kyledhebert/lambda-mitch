@@ -1,0 +1,9 @@
+.aws
+.aws-sam
+.vsdbg
+bin
+obj
+aws-lambda-tools-defaults.json
+event.json
+env.json
+omnisharp.json

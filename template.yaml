@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  A serverless web app that returns a random Mitch Hedberg joke 
+Globals:
+  Function:
+    Timeout: 10
+Parameters:
+  AccessKey:
+    Type: String
+    Description: Access key for IAM user
+    Default: ""
+  SecretKey:
+    Type: String
+    Description: Secret key for IAM user
+    Default: ""
+  BucketName:
+    Type: String
+    Description: S3 bucket name where joke list is stored
+    Default: ""
+Resources:
+  JokeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/LambdaMitch/
+      Handler: LambdaMitch::LambdaMitch.JokeFunction::FunctionHandler
+      Runtime: dotnetcore3.1
+      Environment:
+        Variables:
+          ACCESS_KEY: !Ref AccessKey
+          SECRET_KEY: !Ref SecretKey
+          BUCKET_NAME: !Ref BucketName
+      Events:
+        LambdaMitch:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
